@@ -10,7 +10,7 @@ df["Return"] = df["Close"].pct_change()
 df["Prev_Return"] = df["Return"].shift(1)
 df = df.dropna()
 
-# Train–test szétválasztás (80–20%)
+# Szét választás
 split = int(len(df) * 0.8)
 train, test = df.iloc[:split], df.iloc[split:]
 
@@ -18,8 +18,9 @@ train, test = df.iloc[:split], df.iloc[split:]
 model = DecisionTreeRegressor(max_depth=5, random_state=42)
 model.fit(train[["Prev_Return"]], train["Return"])
 
-# Előrejelzés és kiértékelés
+# Előrejelzés
 pred = model.predict(test[["Prev_Return"]])
 mse = mean_squared_error(test["Return"], pred)
 
 print(f"Modell MSE: {mse:.6f}")
+
